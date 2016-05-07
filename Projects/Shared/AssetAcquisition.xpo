@@ -1,0 +1,135 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: PRN
+
+; 
+; --------------------------------------------------------------------------------
+  PROJECTVERSION 2
+  
+  PROJECT #AssetAcquisition
+  SHARED
+  PROPERTIES
+    Name                #AssetAcquisition
+    Origin              #{25100000-0000-1000-9865-B019CC1C3410}
+  ENDPROPERTIES
+  
+    PROJECTCLASS ProjectNode
+    GROUP #MenuItems
+      PROPERTIES
+        Name                #MenuItems
+        ProjectGroupType    #All
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 2
+        NODETYPE 296
+        NAME #AssetAcquisition
+      ENDNODE
+      ENDGROUP
+      
+    GROUP #Queries
+      PROPERTIES
+        Name                #Queries
+        ProjectGroupType    #All
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 20
+        NODETYPE 330
+        NAME #AssetAcquisition
+      ENDNODE
+      ENDGROUP
+      
+    GROUP #SSRSReport
+      PROPERTIES
+        Name                #SSRSReport
+        ProjectGroupType    #All
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 85
+        NODETYPE 1439
+        NAME #AssetAcquisition
+      ENDNODE
+      ENDGROUP
+      
+    GROUP #VSProjects
+      PROPERTIES
+        Name                #VSProjects
+        ProjectGroupType    #All
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 127
+        NODETYPE 1531
+        NAME #AssetAcquisitionReport
+      ENDNODE
+      ENDGROUP
+      
+    GROUP #Tables
+      PROPERTIES
+        Name                #Tables
+        ProjectGroupType    #All
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 44
+        NODETYPE 204
+        NAME #AssetAcquisitionTmp
+      ENDNODE
+      ENDGROUP
+      
+    GROUP #Classes
+      PROPERTIES
+        Name                #Classes
+        ProjectGroupType    #All
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        NODETYPE 329
+        NAME #AssetAcquisitionDPTest
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        NODETYPE 329
+        NAME #AssetAcquisitionDP
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        NODETYPE 329
+        NAME #AssetAcquisitionController
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        NODETYPE 329
+        NAME #AssetAcquisitionTmpTest
+      ENDNODE
+      ENDGROUP
+      
+  ENDPROJECT
+  
+
+***Element: END

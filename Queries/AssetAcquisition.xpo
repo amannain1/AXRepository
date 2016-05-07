@@ -1,0 +1,215 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: QUE
+
+; 
+; --------------------------------------------------------------------------------
+VERSION 31
+
+QUERY #AssetAcquisition
+  PROPERTIES
+    Name                #AssetAcquisition
+    Version             #897
+    NextUniqueId        #1006
+    Origin              #{14100000-0000-1000-9865-B019CC1C3410}
+  ENDPROPERTIES
+  
+  METHODS
+    SOURCE #classDeclaration
+      #public class QueryRun extends ObjectRun
+      #{
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  BLOCKS
+    BLOCK #AssetTable
+      PROPERTIES
+        Name                #AssetTable
+        Table               #AssetTable
+        UniqueId            #1001
+      ENDPROPERTIES
+      
+      FIELDLIST
+        PROPERTIES
+          Dynamic             #No
+        ENDPROPERTIES
+        
+        FIELD #AssetGroup
+        FIELD #AssetId
+        FIELD #Name
+      ENDFIELDLIST
+      SORTING
+      ENDSORTING
+      LINES
+        LINE #AssetGroup
+        PROPERTIES
+          Name                #AssetGroup
+          Table               #AssetTable
+          Field               #AssetGroup
+        ENDPROPERTIES
+        
+        LINE #AssetId
+        PROPERTIES
+          Name                #AssetId
+          Table               #AssetTable
+          Field               #AssetId
+        ENDPROPERTIES
+        
+      ENDLINES
+      BLOCKS
+        BLOCK #AssetBookMerge
+          PROPERTIES
+            Name                #AssetBookMerge
+            Table               #AssetBookMerge
+            UniqueId            #1002
+            Relations           #Yes
+          ENDPROPERTIES
+          
+          FIELDLIST
+            PROPERTIES
+              Dynamic             #No
+            ENDPROPERTIES
+            
+            FIELD #AssetId
+            FIELD #AcquisitionDate
+            FIELD #AcquisitionPrice
+            FIELD #BookId
+            FIELD #BookType
+            FIELD #VendAccount
+          ENDFIELDLIST
+          SORTING
+          ENDSORTING
+          LINES
+            LINE #BookId
+            PROPERTIES
+              Name                #BookId
+              Table               #AssetBookMerge
+              Field               #BookId
+            ENDPROPERTIES
+            
+            LINE #AssetId
+            PROPERTIES
+              Name                #AssetId
+              Table               #AssetBookMerge
+              Field               #AssetId
+              Status              #Hide
+            ENDPROPERTIES
+            
+          ENDLINES
+          BLOCKS
+            BLOCK #VendTable
+              PROPERTIES
+                Name                #VendTable
+                Table               #VendTable
+                UniqueId            #1004
+                FetchMode           #1:1
+                JoinMode            #OuterJoin
+              ENDPROPERTIES
+              
+              FIELDLIST
+                PROPERTIES
+                  Dynamic             #No
+                ENDPROPERTIES
+                
+                FIELD #AccountNum
+              ENDFIELDLIST
+              SORTING
+              ENDSORTING
+              LINES
+                LINE #AccountNum
+                PROPERTIES
+                  Name                #AccountNum
+                  Table               #VendTable
+                  Field               #AccountNum
+                  Status              #Hide
+                ENDPROPERTIES
+                
+              ENDLINES
+              BLOCKS
+                BLOCK #DirPartyTable
+                  PROPERTIES
+                    Name                #DirPartyTable
+                    Table               #DirPartyTable
+                    UniqueId            #1005
+                    FirstOnly           #Yes
+                    FetchMode           #1:1
+                    JoinMode            #OuterJoin
+                    Relations           #Yes
+                  ENDPROPERTIES
+                  
+                  FIELDLIST
+                    PROPERTIES
+                      Dynamic             #No
+                    ENDPROPERTIES
+                    
+                    FIELD #Name
+                  ENDFIELDLIST
+                  SORTING
+                  ENDSORTING
+                  LINES
+                    LINE #Name
+                    PROPERTIES
+                      Name                #Name
+                      Table               #DirPartyTable
+                      Field               #Name
+                      Status              #Hide
+                    ENDPROPERTIES
+                    
+                  ENDLINES
+                  BLOCKS
+                  ENDBLOCKS
+                  ASSOCIATIONS
+                    ASSOCIATION
+                      FOREIGNKEYRELATION #DirPartyTable_FK
+                  ENDASSOCIATIONS
+                ENDBLOCK
+              ENDBLOCKS
+              ASSOCIATIONS
+                ASSOCIATION
+                  JOINDATASOURCE #AssetBookMerge
+                  MASTERFIELD  #VendAccount
+                  DETAILSFIELD #AccountNum
+              ENDASSOCIATIONS
+            ENDBLOCK
+          ENDBLOCKS
+          ASSOCIATIONS
+            ASSOCIATION
+              FOREIGNKEYRELATION #AssetTable_AssertId
+          ENDASSOCIATIONS
+        ENDBLOCK
+      ENDBLOCKS
+      GROUPBY
+      ENDGROUPBY
+      HAVING
+      ENDHAVING
+      ORDERBY
+        FIELD
+          PROPERTIES
+            DataSource          #AssetTable
+            Field               #AssetGroup
+          ENDPROPERTIES
+          
+        FIELD
+          PROPERTIES
+            DataSource          #AssetTable
+            Field               #AssetId
+          ENDPROPERTIES
+          
+        FIELD
+          PROPERTIES
+            DataSource          #AssetBookMerge
+            Field               #BookId
+          ENDPROPERTIES
+          
+      ENDORDERBY
+    ENDBLOCK
+  ENDBLOCKS
+  DEPENDENTS
+  ENDDEPENDENTS
+  COMPOSITEQUERIES
+  ENDCOMPOSITEQUERIES
+ENDQUERY
+
+
+***Element: END

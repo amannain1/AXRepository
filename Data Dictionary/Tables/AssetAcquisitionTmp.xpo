@@ -1,0 +1,298 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; 
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #AssetAcquisitionTmp
+    EnforceFKRelation 1
+    PROPERTIES
+      Name                #AssetAcquisitionTmp
+      Label               #@SYS67638
+      TableType           #InMemory
+      CreateRecIdIndex    #Yes
+      PrimaryIndex        #SurrogateKey
+      ClusterIndex        #SurrogateKey
+      Origin              #{2C130000-0000-1000-74B9-3346DD1C3410}
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #AcquisitionDate
+        DATE
+        PROPERTIES
+          Name                #AcquisitionDate
+          Table               #AssetAcquisitionTmp
+          Origin              #{2A0F0000-8843-1000-5422-1080188BD7F3}
+          ExtendedDataType    #AssetAcquisitionDate
+        ENDPROPERTIES
+        
+      FIELD #AcquisitionPrice
+        REAL
+        PROPERTIES
+          Name                #AcquisitionPrice
+          Table               #AssetAcquisitionTmp
+          Origin              #{2A100000-8843-1000-5422-10C4B8FCF54A}
+          ExtendedDataType    #AssetAcquisitionPrice
+        ENDPROPERTIES
+        
+      FIELD #AssetGroup
+        STRING
+        PROPERTIES
+          Name                #AssetGroup
+          Table               #AssetAcquisitionTmp
+          Origin              #{2A0A0000-8843-1000-9822-A1767447726F}
+          ExtendedDataType    #AssetGroupId
+        ENDPROPERTIES
+        
+      FIELD #AssetId
+        STRING
+        PROPERTIES
+          Name                #AssetId
+          Table               #AssetAcquisitionTmp
+          Origin              #{2A070000-8843-1000-4173-736574496400}
+          ExtendedDataType    #AssetId
+          StringSize          #20
+        ENDPROPERTIES
+        
+      FIELD #AssetName
+        STRING
+        PROPERTIES
+          Name                #AssetName
+          Table               #AssetAcquisitionTmp
+          Origin              #{2A090000-8843-1000-E8E0-8265744E616D}
+          ExtendedDataType    #AssetName
+          StringSize          #30
+        ENDPROPERTIES
+        
+      FIELD #BookId
+        STRING
+        PROPERTIES
+          Name                #BookId
+          Table               #AssetAcquisitionTmp
+          Origin              #{2A060000-8843-1000-426F-6F6B49640000}
+          ExtendedDataType    #AssetBookId
+        ENDPROPERTIES
+        
+      FIELD #BookType
+        ENUM
+        PROPERTIES
+          Name                #BookType
+          Table               #AssetAcquisitionTmp
+          Origin              #{2A080000-8843-1000-426F-6F6B54797065}
+          EnumType            #AssetBookType
+        ENDPROPERTIES
+        
+      FIELD #VendorAccount
+        STRING
+        PROPERTIES
+          Name                #VendorAccount
+          Table               #AssetAcquisitionTmp
+          Origin              #{2A0D0000-8843-1000-C739-C9EE8A3B5363}
+          ExtendedDataType    #VendAccount
+          StringSize          #20
+        ENDPROPERTIES
+        
+      FIELD #VendorName
+        STRING
+        PROPERTIES
+          Name                #VendorName
+          Table               #AssetAcquisitionTmp
+          Origin              #{2A0A0000-8843-1000-D5B2-EC736F724E61}
+          ExtendedDataType    #VendName
+          StringSize          #100
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+    ENDGROUPS
+    
+    INDICES
+    ENDINDICES
+    FULLTEXTINDICES
+    ENDFULLTEXTINDICES
+    REFERENCES
+      REFERENCE #AssetBookTable
+        PROPERTIES
+          Name                #AssetBookTable
+          Table               #AssetBookTable
+          RelatedTableCardinality   #ZeroOne
+          Cardinality         #ZeroMore
+          RelationshipType    #Association
+          UseDefaultRoleNames #Yes
+          EDTRelation         #Yes
+        ENDPROPERTIES
+        
+        FIELDREFERENCES
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #BookId
+            RelatedField        #BookId
+            SourceEDT           #AssetBookId
+          ENDPROPERTIES
+          
+        ENDFIELDREFERENCES
+      ENDREFERENCE
+      REFERENCE #AssetGroup
+        PROPERTIES
+          Name                #AssetGroup
+          Table               #AssetGroup
+          RelatedTableCardinality   #ZeroOne
+          Cardinality         #ZeroMore
+          RelationshipType    #Association
+          UseDefaultRoleNames #Yes
+        ENDPROPERTIES
+        
+        FIELDREFERENCES
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #AssetGroup
+            RelatedField        #GroupId
+            SourceEDT           #AssetGroupId
+          ENDPROPERTIES
+          
+        ENDFIELDREFERENCES
+      ENDREFERENCE
+      REFERENCE #AssetTable
+        PROPERTIES
+          Name                #AssetTable
+          Table               #AssetTable
+          RelatedTableCardinality   #ZeroOne
+          Cardinality         #ZeroMore
+          RelationshipType    #Association
+          UseDefaultRoleNames #Yes
+          EDTRelation         #Yes
+        ENDPROPERTIES
+        
+        FIELDREFERENCES
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #AssetId
+            RelatedField        #AssetId
+            SourceEDT           #AssetId
+          ENDPROPERTIES
+          
+        ENDFIELDREFERENCES
+      ENDREFERENCE
+      REFERENCE #VendTable
+        PROPERTIES
+          Name                #VendTable
+          Table               #VendTable
+          RelatedTableCardinality   #ZeroOne
+          Cardinality         #ZeroMore
+          RelationshipType    #Association
+          UseDefaultRoleNames #Yes
+          EDTRelation         #Yes
+        ENDPROPERTIES
+        
+        FIELDREFERENCES
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #VendorAccount
+            RelatedField        #AccountNum
+            SourceEDT           #VendAccount
+          ENDPROPERTIES
+          
+        ENDFIELDREFERENCES
+      ENDREFERENCE
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+    METHODS
+      SOURCE #initFromAssetBookMerge
+        #/// <summary>
+        #/// Initializes the current record from the <c>AssetBookMerge</c> record.
+        #/// </summary>
+        #/// <param name="_assetBookMerge">
+        #/// The <c>AssetBookMerge</c> record.
+        #/// </param>
+        #/// <param name="_calculateAcquisitionPrice">
+        #/// A Boolean value that indicates whether to calculate the acquisition price.
+        #/// </param>
+        #// <GEELV>
+        #public void initFromAssetBookMerge(AssetBookMerge _assetBookMerge, boolean _calculateAcquisitionPrice)
+        #{
+        #    AssetSumCalc assetSumCalc;
+        #    real acquisitionPrice;
+        #
+        #    if (_calculateAcquisitionPrice)
+        #    {
+        #        if (_assetBookMerge.BookType == AssetBookType::DepreciationBook)
+        #        {
+        #            assetSumCalc = AssetSumCalc_DepBookTrans::newAssetPeriod(
+        #                SysQuery::value(_assetBookMerge.AssetId),
+        #                SysQuery::value(_assetBookMerge.BookId),
+        #                dateNull(),
+        #                dateMax());
+        #        }
+        #        else if (_assetBookMerge.BookType == AssetBookType::ValueModel)
+        #        {
+        #            assetSumCalc = AssetSumCalc_Trans::newAssetPeriod(
+        #                SysQuery::value(_assetBookMerge.AssetId),
+        #                SysQuery::value(_assetBookMerge.BookId),
+        #                dateNull(),
+        #                dateMax());
+        #        }
+        #
+        #        acquisitionPrice = assetSumCalc.acquisitionValue();
+        #    }
+        #    else
+        #    {
+        #        acquisitionPrice = _assetBookMerge.AcquisitionPrice;
+        #    }
+        #
+        #    this.AcquisitionDate = _assetBookMerge.AcquisitionDate;
+        #    this.AcquisitionPrice = acquisitionPrice;
+        #    // AssetGroup comes from AssetTable
+        #    // AssetId comes from AssetTable
+        #    this.BookId = _assetBookMerge.BookId;
+        #    this.BookType = _assetBookMerge.BookType;
+        #    // VendName comes from VendTable
+        #}
+        #// </GEELV>
+        #
+      ENDSOURCE
+      SOURCE #initFromAssetTable
+        #/// <summary>
+        #/// Initializes the current record from the fixed asset.
+        #/// </summary>
+        #/// <param name="_assetTable">
+        #/// The fixed asset.
+        #/// </param>
+        #// <GEELV>
+        #public void initFromAssetTable(AssetTable _assetTable)
+        #{
+        #    this.AssetId = _assetTable.AssetId;
+        #    this.AssetName = _assetTable.Name;
+        #    this.AssetGroup = _assetTable.AssetGroup;
+        #}
+        #// </GEELV>
+        #
+      ENDSOURCE
+      SOURCE #initFromVendTable
+        #/// <summary>
+        #/// Initializes the current record from the vendor.
+        #/// </summary>
+        #/// <param name="_vendTable">
+        #/// The specified vendor.
+        #/// </param>
+        #/// <param name="_dirPartyTable">
+        #/// The <c>DirPartyTable</c> record associated with the vendor.
+        #/// </param>
+        #public void initFromVendTable(VendTable _vendTable, DirPartyTable _dirPartyTable)
+        #{
+        #    this.VendorAccount = _vendTable.AccountNum;
+        #    this.VendorName = _dirPartyTable.Name;
+        #}
+        #// </GEELV>
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

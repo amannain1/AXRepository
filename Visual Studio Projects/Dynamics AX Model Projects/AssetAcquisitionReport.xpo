@@ -1,0 +1,100 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: VPA
+
+; 
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  VISUALSTUDIOPROJECT #AssetAcquisitionReport
+    PROPERTIES
+      Name                #AssetAcquisitionReport
+      ProjectGUID         #{B0E5EA12-B1C8-481C-86A3-F371156AE3AC}
+      ProjectTypeGUID     #{AA631830-3AD7-4631-8CF6-443A09BF983B}
+      VisualStudioProjectFile   #AssetAcquisitionReport.dynamicsproj
+      Origin              #{7119A80A-15D9-4CD5-8D8E-EDE7DBDE3FBF}
+    ENDPROPERTIES
+    
+    REFERENCEDPROJECTS
+      #
+    ENDREFERENCEDPROJECTS
+    
+    VISUALSTUDIOPROJECTFOLDER #Project Content
+      PROPERTIES
+        Name                #Project Content
+      ENDPROPERTIES
+      
+      VISUALSTUDIOPROJECTFILE #AssetAcquisitionReport.dynamicsproj
+        PROPERTIES
+          Name                #AssetAcquisitionReport.dynamicsproj
+        ENDPROPERTIES
+        
+        SOURCE 2441
+#﻿<?xml version="1.0" encoding="utf-8"?>
+#<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+#  <PropertyGroup>
+#    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+#    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+#    <ProductVersion>6.0.353.0</ProductVersion>
+#    <SchemaVersion>2.0</SchemaVersion>
+#    <ProjectGuid>{b0e5ea12-b1c8-481c-86a3-f371156ae3ac}</ProjectGuid>
+#    <Name>AssetAcquisitionReport</Name>
+#    <BaseAssemblyName>AssetAcquisitionReport</BaseAssemblyName>
+#    <!-- Application property page properties -->
+#    <OutputType>Dynamics Reporting Library</OutputType>
+#    <!-- AssemblyInfo properties -->
+#    <AssemblyTitle>AssetAcquisitionReport</AssemblyTitle>
+#    <AssemblyCompany>SSL</AssemblyCompany>
+#    <AssemblyProduct>AssetAcquisitionReport</AssemblyProduct>
+#    <AssemblyCopyright>Copyright © SSL 2009</AssemblyCopyright>
+#    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+#    <FileAlignment>512</FileAlignment>
+#    <OutputPath>bin\Debug\</OutputPath>
+#    <RootNamespace>AssetAcquisitionReport</RootNamespace>
+#    <DebugExePath>C:\Program Files\Microsoft Dynamics AX\6.0\Client\Bin\Ax32.exe</DebugExePath>
+#    <ProjectTypeGuids>{BF6F8E12-879D-49E7-ADF0-5503146B24B8};{AA631830-3AD7-4631-8CF6-443A09BF983B}</ProjectTypeGuids>
+#    <DeployToServer>No</DeployToServer>
+#    <DeployToClient>No</DeployToClient>
+#    <DeployToEP>No</DeployToEP>
+#    <DeployToSSRS>Yes</DeployToSSRS>
+#    <DebugTarget>None</DebugTarget>
+#    <StartupElement />
+#  </PropertyGroup>
+#  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+#    <OutputPath>bin\Debug\</OutputPath>
+#  </PropertyGroup>
+#  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+#    <OutputPath>bin\Release\</OutputPath>
+#  </PropertyGroup>
+#  <ItemGroup>
+#  </ItemGroup>
+#  <ItemGroup>
+#  </ItemGroup>
+#  <ItemGroup>
+#  </ItemGroup>
+#  <ItemGroup>
+#    <Compile Include="\SSRS Reports\Reports\AssetAcquisition">
+#      <Virtual>True</Virtual>
+#    </Compile>
+#  </ItemGroup>
+#  <ItemGroup />
+#  <Import Project="$(MSBuildExtensionsPath)\Microsoft\DynamicsTools\Microsoft.Dynamics.Framework.Design.Reporting.Modeling.targets" />
+#  <Import Project="$(MSBuildExtensionsPath)\Microsoft\DynamicsTools\Microsoft.Dynamics.Framework.Design.InteractionProject.targets" />
+#</Project>
+        ENDSOURCE
+      ENDVISUALSTUDIOPROJECTFILE
+      
+    ENDVISUALSTUDIOPROJECTFOLDER
+    
+    VISUALSTUDIOPROJECTFOLDER #Project Output
+      PROPERTIES
+        Name                #Project Output
+      ENDPROPERTIES
+      
+    ENDVISUALSTUDIOPROJECTFOLDER
+    
+  ENDVISUALSTUDIOPROJECT
+  
+
+***Element: END

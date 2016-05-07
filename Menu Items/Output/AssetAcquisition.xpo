@@ -1,0 +1,32 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FTM
+
+; 
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MENUITEM #AssetAcquisition
+    Type: 2
+    PROPERTIES
+      Name                #AssetAcquisition
+      Label               #@SYS67638
+      HelpText            #@SYS336675
+      ObjectType          #Class
+      Object              #AssetAcquisitionController
+      LinkedPermissionType #SSRSReport
+      LinkedPermissionObject  #AssetAcquisition
+      LinkedPermissionObjectChild       #Report
+      ConfigurationKey    #Asset
+      SecurityKey         #LedgerReports
+      ViewUserLicense     #Enterprise
+      MaintainUserLicense #Enterprise
+      WebAccess           #None
+      Origin              #{02100000-0000-1000-9865-B019CC1C3410}
+    ENDPROPERTIES
+    
+  ENDMENUITEM
+  
+
+***Element: END
