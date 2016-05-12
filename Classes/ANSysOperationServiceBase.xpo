@@ -1,0 +1,119 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; 
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #ANSysOperationServiceBase
+    PROPERTIES
+      Name                #ANSysOperationServiceBase
+      Extends             #SysOperationServiceBase
+      RunOn               #Server
+      Origin              #{D5E802A7-D580-4E6D-BFA1-E6AE886506D5}
+    ENDPROPERTIES
+    
+    METHODS
+      SOURCE #AddRunTimeTaskList
+        #/// <summary>
+        #/// Used to add a list of runtime tasks to the current batch job
+        #/// </summary>
+        #/// <param name="_batchTasks">
+        #/// List of tasks to be added
+        #/// </param>
+        #/// <param name="_batchTaskAfter">
+        #/// task to be run after all other tasks are complete
+        #/// </param>
+        #/// <remarks>
+        #///
+        #/// </remarks>
+        #protected void AddRunTimeTaskList(List _batchTasks,
+        #                                  Batchable _batchTaskAfter = null,
+        #                                  Batchable _batchTaskBefore = null)
+        #{
+        #    BatchHeader bh = this.getCurrentBatchHeader();
+        #    Batch b = this.getCurrentBatchTask();
+        #    Batchable batchTask;
+        #    ListEnumerator listEnum;
+        #    boolean isRunTimeJob; //= bh.parmRuntimeJob();
+        #
+        #    listEnum = _batchTasks.getEnumerator();
+        #    listEnum.reset();
+        #    if(bh)
+        #        isRunTimeJob = bh.parmRuntimeJob();
+        #    if( this.isExecutingInBatch() )
+        #    {
+        #
+        #        if( _batchTaskBefore )
+        #        {
+        #            bh.addRuntimeTask(_batchTaskBefore,b.RecId);
+        #        }
+        #
+        #        if( _batchTaskAfter )
+        #        {
+        #            bh.addRuntimeTask(_batchTaskAfter,b.RecId);
+        #        }
+        #
+        #
+        #        /*Now loop through all the tasks and add them*/
+        #        while(listEnum.moveNext())
+        #        {
+        #            batchTask = listEnum.current();
+        #            //b.RunTimeTask = true;
+        #            //bh.addTask(batchTask);
+        #            bh.addRuntimeTask(batchTask,b.RecId);
+        #
+        #            //Add dependency to the first batch to complete before executing the batch list.
+        #            if(_batchTaskBefore)
+        #            {
+        #                bh.addDependency(batchTask,_batchTaskBefore,BatchDependencyStatus::Finished);
+        #            }
+        #
+        #            //Add dependency to the list of batch to complete before executing the last batch.
+        #            if(_batchTaskAfter)
+        #            {
+        #                bh.addDependency(_batchTaskAfter,batchTask,BatchDependencyStatus::Finished);
+        #            }
+        #        }
+        #
+        #        try
+        #        {
+        #            ttsBegin;
+        #            //Need to restore this value as there is an issue in this version of AX
+        #            bh.parmRuntimeJob(isRunTimeJob);
+        #            bh.save();
+        #            ttsCommit;
+        #        }
+        #        catch( Exception::UpdateConflict )
+        #        {
+        #            error("Failed to add child task");
+        #        }
+        #    }
+        #    else
+        #    {
+        #        /*Now loop through all the tasks and add them*/
+        #        while(listEnum.moveNext())
+        #        {
+        #            batchTask = listEnum.current();
+        #            batchTask.run();
+        #        }
+        #        /*See if there is a batch to run after*/
+        #        if(_batchTaskAfter)
+        #        {
+        #            _batchTaskAfter.run();
+        #        }
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #classDeclaration
+        #public class ANSysOperationServiceBase extends SysOperationServiceBase
+        #{
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

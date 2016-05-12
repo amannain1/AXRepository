@@ -1,0 +1,194 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; 
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #TemplateService
+    PROPERTIES
+      Name                #TemplateService
+      RunOn               #Server
+      Origin              #{649CE50B-8B2E-4FDC-BF7D-B33F493DC2AA}
+    ENDPROPERTIES
+    
+    METHODS
+      SOURCE #classDeclaration
+        #class TemplateService extends MMSSysOperationServiceBase
+        #{
+        #    #define.defaultBatchSize(1000)//todo define batch size
+        #    #define.defaultThreads(7)
+        #    #define.maximumRow(100000000)
+        #}
+      ENDSOURCE
+      SOURCE #createTasks
+        #/// <summary>
+        #/// creates individual task by batch for multithreading
+        #/// </summary>
+        #/// <param name="_dataContract">
+        #/// an instance of <c>TemplateDataContract</c> class
+        #/// </param>
+        #/// <remarks>
+        #/// na
+        #/// </remarks>
+        #[SysEntryPointAttribute]
+        #public void createTasks(TemplateDataContract   _dataContract)
+        #{
+        #    TemplateDataContract                subData;
+        #    SysOperationServiceController       firstTask, lastTask, subTasks;
+        #    List                                taskList = new List(Types::Class);
+        #    int64                               startingPosition    = 1;
+        #    int64                               noOfRecords;
+        #    Query                               query;
+        #    QueryRun                            queryRun;
+        #    int64                               endPosition, ctr, batchSize;
+        #
+        #    query           = _dataContract.getQuery();
+        #    queryRun        = new QueryRun(query);
+        #
+        #    // Get number of records from the query
+        #    noOfRecords = queryRun::getQueryRowCount(query, #maximumRow);
+        #    batchSize = real2Int(noOfRecords / minOne(this.getMaxThreads()-1));
+        #
+        #    if (noOfRecords == 0)
+        #        info(strFmt("No records to update"));
+        #    else
+        #        info(strFmt("Updating %1 records, see batch history for details",noOfRecords));
+        #
+        #    while (startingPosition <= noOfRecords)
+        #    {
+        #        ctr ++;
+        #        endPosition = (startingPosition-1)+batchSize;
+        #        endPosition = endPosition > noOfRecords ? noOfRecords : endPosition;
+        #
+        #
+        #        subTasks =  new SysOperationServiceController(classStr(TemplateService),
+        #            methodStr(TemplateService, run), SysOperationExecutionMode::Asynchronous);
+        #
+        #        subTasks.parmDialogCaption(strFmt("Running XXX batch %1-%2",startingPosition,endPosition));
+        #
+        #
+        #        subData = subTasks.getDataContractObject();
+        #        subData.setQuery(query); //pass the filtered query.
+        #        subData.parmBatchSize(batchSize);
+        #        subData.parmStartingPosition(startingPosition);
+        #
+        #        taskList.addEnd(subTasks);
+        #        startingPosition    += batchSize;
+        #
+        #    }
+        #
+        #
+        #    //create the first task to be executed, this is the first task before all other tasks are executed.
+        #    //firstTask = new SysOperationServiceController(classStr(TemplateService),  methodStr(TemplateService, runInitialTask), SysOperationExecutionMode::Asynchronous);
+        #    //firstTask.parmDialogCaption(strFmt("Running initial batch task"));
+        #
+        #    //this.AddRunTimeTaskList(firstTask, taskList);
+        #
+        #    //create the last task to be executed, this is the last task bulk update, add it after all tasks are completed.
+        #    lastTask =  new SysOperationServiceController(classStr(TemplateService),  methodStr(TemplateService, runFinaltask), SysOperationExecutionMode::Asynchronous);
+        #    lastTask.parmDialogCaption(strFmt("Running final batch task"));
+        #
+        #    this.AddRunTimeTaskList(taskList, lastTask);
+        #}
+      ENDSOURCE
+      SOURCE #getMaxThreads
+        #public int getMaxThreads()
+        #{
+        #    SysServerConfig             serverConfig;
+        #    BatchServerConfig           batchServerConfig;
+        #
+        #    int numberOfBatchSessions = 0;
+        #
+        #    select sum(MaxBatchSessions) from batchServerConfig
+        #    join TableId from serverConfig
+        #        where serverConfig.ServerId         == batchServerConfig.ServerId
+        #        &&    serverConfig.EnableBatch      == NoYes::Yes;
+        #
+        #    if (batchServerConfig.MaxBatchSessions)
+        #    {
+        #        numberOfBatchSessions = batchServerConfig.MaxBatchSessions;
+        #    }
+        #
+        #    if (numberOfBatchSessions == 0)
+        #    {
+        #        numberOfBatchSessions = #defaultThreads;
+        #    }
+        #
+        #    return numberOfBatchSessions;
+        #}
+      ENDSOURCE
+      SOURCE #run
+        #[SysEntryPointAttribute]
+        #public void run(TemplateDataContract   _dataContract)
+        #{
+        #    #OCCRetryCount
+        #
+        #    RefRecId                            dealRecId;
+        #    int64                               counter = 0;
+        #    Query                               query;
+        #    QueryRun                            queryRun;
+        #    CustTable                           custTable;
+        #
+        #    try
+        #    {
+        #        query         = _dataContract.getQuery();
+        #        queryRun = new QueryRun(query);
+        #        // Enable position paging for the queryrun object
+        #        queryRun.enablePositionPaging(true);//requires order by on the AOT query
+        #        //Add a range by providing the parameters as starting record number and number of records
+        #        queryRun.addPageRange(_dataContract.parmStartingPosition(), _dataContract.parmBatchSize());
+        #
+        #        while (queryRun.next())
+        #        {
+        #            custTable = queryRun.get(tableNum(CustTable));
+        #            info(strFmt("Customer %1 completed", custTable.AccountNum));
+        #        }
+        #
+        #
+        #        info(strFmt("XXX job scheduler completed"));
+        #    }
+        #    catch (Exception::Deadlock)
+        #    {
+        #        retry;
+        #    }
+        #    catch (Exception::UpdateConflict)
+        #    {
+        #        if (appl.ttsLevel() == 0)
+        #        {
+        #            if (xSession::currentRetryCount() >= #RetryNum)
+        #                throw Exception::UpdateConflictNotRecovered;
+        #            else
+        #                retry;
+        #        }
+        #        else
+        #        {
+        #            throw Exception::UpdateConflict;
+        #        }
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #runFinaltask
+        #private void runFinaltask()
+        #{
+        #
+        #    //logic here
+        #    info("Final task completed");
+        #
+        #}
+      ENDSOURCE
+      SOURCE #runInitialTask
+        #private void runInitialTask()
+        #{
+        #
+        #    //logic here
+        #    info("Initial task completed");
+        #
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

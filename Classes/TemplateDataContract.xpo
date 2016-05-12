@@ -1,0 +1,95 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; 
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #TemplateDataContract
+    PROPERTIES
+      Name                #TemplateDataContract
+      Origin              #{8EF9546D-E70B-4765-9FBA-A29298D58727}
+    ENDPROPERTIES
+    
+    METHODS
+      SOURCE #classDeclaration
+        #[DataContractAttribute]
+        #class TemplateDataContract implements SysOperationInitializable, SysOperationValidatable
+        #{
+        #    int64                                   startingPosition, batchSize;
+        #    AccountNum                              customerID;
+        #    str                                     packedQuery;
+        #}
+      ENDSOURCE
+      SOURCE #getQuery
+        #public Query getQuery()
+        #{
+        #    return new Query(SysOperationHelper::base64Decode(packedQuery));
+        #}
+      ENDSOURCE
+      SOURCE #initialize
+        #/// <summary>
+        #/// initialises the default parameters
+        #/// </summary>
+        #/// <remarks>
+        #/// na
+        #/// </remarks>
+        #public void initialize()
+        #{
+        #
+        #}
+      ENDSOURCE
+      SOURCE #parmBatchSize
+        #[DataMemberAttribute,SysOperationControlVisibilityAttribute(false)]
+        #public int64 parmBatchSize(int64 _batchSize = batchSize)
+        #{
+        #    batchSize   = _batchSize;
+        #    return batchSize;
+        #}
+      ENDSOURCE
+      SOURCE #parmCustomerID
+        #[DataMemberAttribute,SysOperationControlVisibilityAttribute(false)]
+        #public AccountNum parmCustomerID(AccountNum _customerID = customerID)
+        #{
+        #    customerID   = _customerID;
+        #    return customerID;
+        #}
+      ENDSOURCE
+      SOURCE #parmQuery
+        #[DataMemberAttribute,
+        #AifQueryTypeAttribute('_packedQuery', querystr(CustTableSRS))]
+        #public str parmQuery(str _packedQuery = packedQuery)
+        #{
+        #    packedQuery = _packedQuery;
+        #    return packedQuery;
+        #}
+      ENDSOURCE
+      SOURCE #parmStartingPosition
+        #[DataMemberAttribute,SysOperationControlVisibilityAttribute(false)]
+        #public int64 parmStartingPosition(int64 _startingPosition = startingPosition)
+        #{
+        #    startingPosition    = _startingPosition;
+        #    return startingPosition;
+        #}
+      ENDSOURCE
+      SOURCE #setQuery
+        #public void setQuery(Query _query)
+        #{
+        #    packedQuery = SysOperationHelper::base64Encode(_query.pack());
+        #}
+        #
+      ENDSOURCE
+      SOURCE #validate
+        #public boolean validate()
+        #{
+        #    boolean         isValid = true;
+        #
+        #    return isValid;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

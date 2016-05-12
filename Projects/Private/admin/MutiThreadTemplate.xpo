@@ -1,0 +1,57 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: PRN
+
+; 
+; --------------------------------------------------------------------------------
+  PROJECTVERSION 2
+  
+  PROJECT #MutiThreadTemplate
+  PRIVATE
+  PROPERTIES
+    Name                #MutiThreadTemplate
+    Origin              #{55A6E1DC-907F-4B2A-9BC7-0C35ECDD76BA}
+  ENDPROPERTIES
+  
+    PROJECTCLASS ProjectNode
+    BEGINNODE
+      FILETYPE 0
+      UTILTYPE 3
+      NODETYPE 296
+      NAME #TemplateService
+    ENDNODE
+    BEGINNODE
+      FILETYPE 0
+      UTILTYPE 20
+      NODETYPE 330
+      NAME #CustTableSRS
+    ENDNODE
+    BEGINNODE
+      FILETYPE 0
+      UTILTYPE 45
+      NODETYPE 329
+      NAME #TemplateController
+    ENDNODE
+    BEGINNODE
+      FILETYPE 0
+      UTILTYPE 45
+      NODETYPE 329
+      NAME #TemplateDataContract
+    ENDNODE
+    BEGINNODE
+      FILETYPE 0
+      UTILTYPE 45
+      NODETYPE 329
+      NAME #TemplateService
+    ENDNODE
+    BEGINNODE
+      FILETYPE 0
+      UTILTYPE 45
+      NODETYPE 329
+      NAME #ANSysOperationServiceBase
+    ENDNODE
+  ENDPROJECT
+  
+
+***Element: END

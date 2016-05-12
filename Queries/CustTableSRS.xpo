@@ -1,0 +1,102 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: QUE
+
+; 
+; --------------------------------------------------------------------------------
+VERSION 31
+
+QUERY #CustTableSRS
+  PROPERTIES
+    Name                #CustTableSRS
+    Version             #173
+    NextUniqueId        #1002
+    Origin              #{140C0000-0000-1000-EAA3-D6C80E6E626C}
+  ENDPROPERTIES
+  
+  METHODS
+    SOURCE #classDeclaration
+      #public class QueryRun extends ObjectRun
+      #{
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  BLOCKS
+    BLOCK #CustTable
+      PROPERTIES
+        Name                #CustTable
+        Table               #CustTable
+        UniqueId            #1000
+      ENDPROPERTIES
+      
+      FIELDLIST
+        PROPERTIES
+          Dynamic             #No
+        ENDPROPERTIES
+        
+        FIELD #AccountNum
+        FIELD #CustGroup
+      ENDFIELDLIST
+      SORTING
+      ENDSORTING
+      LINES
+        LINE #CustGroup
+        PROPERTIES
+          Name                #CustGroup
+          Table               #CustTable
+          Field               #CustGroup
+        ENDPROPERTIES
+        
+      ENDLINES
+      BLOCKS
+        BLOCK #DirPartyTable
+          PROPERTIES
+            Name                #DirPartyTable
+            Table               #DirPartyTable
+            UniqueId            #1001
+            FetchMode           #1:1
+            Relations           #Yes
+          ENDPROPERTIES
+          
+          FIELDLIST
+            PROPERTIES
+              Dynamic             #No
+            ENDPROPERTIES
+            
+            FIELD #Name
+          ENDFIELDLIST
+          SORTING
+          ENDSORTING
+          LINES
+          ENDLINES
+          BLOCKS
+          ENDBLOCKS
+          ASSOCIATIONS
+            ASSOCIATION
+              FOREIGNKEYRELATION #DirPartyTable_FK
+          ENDASSOCIATIONS
+        ENDBLOCK
+      ENDBLOCKS
+      GROUPBY
+      ENDGROUPBY
+      HAVING
+      ENDHAVING
+      ORDERBY
+        FIELD
+          PROPERTIES
+            DataSource          #CustTable
+            Field               #AccountNum
+          ENDPROPERTIES
+          
+      ENDORDERBY
+    ENDBLOCK
+  ENDBLOCKS
+  DEPENDENTS
+  ENDDEPENDENTS
+  COMPOSITEQUERIES
+  ENDCOMPOSITEQUERIES
+ENDQUERY
+
+
+***Element: END

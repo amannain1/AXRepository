@@ -1,0 +1,134 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; 
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #TemplateController
+    PROPERTIES
+      Name                #TemplateController
+      Extends             #SysOperationServiceController
+      Origin              #{DD7C0CCD-72AB-4941-B5E0-21EE9CE46A37}
+    ENDPROPERTIES
+    
+    METHODS
+      SOURCE #caption
+        #public ClassDescription caption()
+        #{
+        #    return this.parmCaption(); //use as default task description;
+        #}
+      ENDSOURCE
+      SOURCE #classDeclaration
+        #/// <summary>
+        #/// Main controller responsible for creating batch tasks
+        #/// </summary>
+        #/// <remarks>
+        #/// NA
+        #/// </remarks>
+        #class TemplateController extends  SysOperationServiceController
+        #{
+        #    ClassDescription                    caption;
+        #}
+      ENDSOURCE
+      SOURCE #dialogPostRun
+        #//this sets the batch dialog tab on focus by default.
+        #protected void dialogPostRun()
+        #{
+        #    sysOperationDialog sysOperationDialog;
+        #    DialogTabPage batchTab;
+        #    FormRun formRun;
+        #
+        #    super();
+        #
+        #    sysOperationDialog = this.dialog() as SysOperationDialog;
+        #
+        #    formRun = sysOperationDialog.formRun();
+        #
+        #    batchTab = sysOperationDialog.batchDialogTabPage();
+        #
+        #    formRun.selectControl(batchTab.control());
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #public void new()
+        #{
+        #    super();
+        #
+        #}
+      ENDSOURCE
+      SOURCE #parmCaption
+        #public classDescription parmCaption(classDescription _caption = caption)
+        #{
+        #    caption = _caption;
+        #    return caption;
+        #}
+      ENDSOURCE
+      SOURCE #showQuerySelectButton
+        #public boolean showQuerySelectButton(str parameterName)
+        #{
+        #    return false;
+        #}
+      ENDSOURCE
+      SOURCE #showQueryValues
+        #public boolean showQueryValues(str parameterName) //hides the query range from the dialog.
+        #{
+        #    boolean ret;
+        #
+        #    ret = false;
+        #
+        #    return ret;
+        #}
+      ENDSOURCE
+      SOURCE #main
+        #public static void main(args _args)
+        #{
+        #    TemplateController   controller;
+        #
+        #    controller = TemplateController::newFromArgs(_args);
+        #    controller.startOperation();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #newFromArgs
+        #public static TemplateController newFromArgs(args _args)
+        #{
+        #    TemplateController                      controller;
+        #    TemplateDataContract                    contract;
+        #    Query                                   query;
+        #
+        #    controller = new TemplateController();
+        #
+        #    //read param from menu
+        #    controller.initializeFromArgs(_args);
+        #
+        #    //initialize class and method to run, can also set Parameters of menu to MMSLinkAppCATProductService.createTasks as alternative.
+        #    controller.parmClassName(classStr(TemplateService)); //name of the servcice class
+        #    controller.parmMethodName(methodStr(TemplateService,createTasks)); //method to run
+        #
+        #    //initialize default values.
+        #    controller.parmDialogCaption("XXX batch");
+        #    controller.parmCaption("XXX batch");
+        #    controller.parmLoadFromSysLastValue(false);
+        #
+        #    //get the datacontract
+        #    contract = controller.getDataContractObject('_dataContract'); //should be the same name as the datacontract name in service class.
+        #    query = new query(queryStr(CustTableSRS));//todo change this
+        #    contract.setQuery(query);
+        #
+        #    controller.queryChanged('_dataContract.parmQuery', query);
+        #
+        #    return controller;
+        #}
+        #
+        #
+        #
+        #
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END
